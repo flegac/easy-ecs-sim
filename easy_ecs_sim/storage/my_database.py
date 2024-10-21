@@ -4,13 +4,13 @@ from typing import Type, override
 from easy_kit.timing import time_func
 
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.utils import ComponentSet, flatten_components
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.id_generator import IdGenerator
 from easy_ecs_sim.storage.index import Index
 from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 EID_GEN = IdGenerator()
 

@@ -1,6 +1,6 @@
-import uuid
 from typing import override
 
+from easy_kit.context import Context
 from easy_kit.timing import TimingTestCase
 from pydantic import Field
 
@@ -8,8 +8,11 @@ from easy_ecs_sim.component import Component
 from easy_ecs_sim.ecs import ECS
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.demography import Demography
+from easy_ecs_sim.storage.id_generator import IdGenerator
 from easy_ecs_sim.storage.my_database import MyDatabase
 from easy_ecs_sim.system import System
+
+GENERATOR = IdGenerator()
 
 
 class Position(Component):
@@ -23,7 +26,7 @@ class Speed(Component):
 
 
 class Info(Component):
-    name: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str = Field(default_factory=lambda: str(GENERATOR.new_id()))
 
 
 class Move(Signature):
@@ -35,7 +38,7 @@ class MoveSystem(System[Move]):
     _signature = Move
 
     @override
-    def update_single(self, db: MyDatabase, item: Move, dt: float):
+    def update_single(self, ctx: Context, db: MyDatabase, item: Move, dt: float):
         item.pos.x += item.speed.x
         item.pos.y += item.speed.y
         if item.pos.x > 3:

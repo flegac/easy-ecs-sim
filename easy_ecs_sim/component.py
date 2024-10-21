@@ -1,9 +1,10 @@
 from dataclasses import field
 from typing import Self, Type, Any
 
+from easy_kit.context import Context
+from easy_kit.my_model import MyModel
 from easy_kit.timing import time_func
 
-from easy_kit.my_model import MyModel
 from easy_ecs_sim.storage.id_generator import IdGenerator
 from easy_ecs_sim.types import ComponentId, EntityId
 
@@ -15,6 +16,7 @@ class Component(MyModel):
     eid: EntityId = -1
 
     db: Any = None
+    ctx: Context | None = None
 
     @classmethod
     def signature(cls) -> list[Type[Self]]:

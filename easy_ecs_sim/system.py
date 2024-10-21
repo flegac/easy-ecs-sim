@@ -2,9 +2,10 @@ from abc import abstractmethod
 from dataclasses import field
 from typing import Type, override
 
+from easy_kit.context import Context
+from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
-from easy_kit.my_model import MyModel
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.database import Database
@@ -19,7 +20,7 @@ class BaseSystem(MyModel):
         return self
 
     @abstractmethod
-    def update(self, db: Database, dt: float):
+    def update(self, ctx: Context, db: Database, dt: float):
         ...
 
 
@@ -41,30 +42,30 @@ class System[T: Signature | Component](BaseSystem):
     def sys_id(self):
         return self.__class__.__name__
 
-    def update_single(self, db: Database, item: T, dt: float):
+    def update_single(self, ctx, db: Database, item: T, dt: float):
         pass
 
-    def register(self, item: T):
+    def register(self, ctx: Context, item: T):
         pass
 
-    def unregister(self, item: T):
+    def unregister(self, ctx: Context, item: T):
         pass
 
     @override
-    def update(self, db: Database, dt: float):
+    def update(self, ctx: Context, db: Database, dt: float):
         if self.timebox:
             dt_fixed = dt + self.timebox.dt_bonus
             for item in self.timebox.iter(db, dt):
-                self.update_single(db, item, dt_fixed)
+                self.update_single(ctx, db, item, dt_fixed)
         else:
             for item in db.get_table(self._signature).iter():
-                self.update_single(db, item, dt)
+                self.update_single(ctx, db, item, dt)
 
 
 class SystemBag(System):
     name: str
     steps: list[System] = field(default_factory=list)
 
-    def update(self, db: Database, dt: float):
+    def update(self, ctx: Context, db: Database, dt: float):
         for _ in self.steps:
             _.update_all(db, dt)

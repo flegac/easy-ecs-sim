@@ -1,47 +1,35 @@
-import traceback
-from typing import Type
-
 import time
+import traceback
+
+from easy_kit.context import Context
 from easy_kit.timing import time_func, timing
 from loguru import logger
 
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.utils import ComponentSet
-from easy_ecs_sim.signature import Signature
-from easy_ecs_sim.storage.my_database import MyDatabase
 from easy_ecs_sim.storage.demography import Demography
-from easy_ecs_sim.system import System, SystemBag
+from easy_ecs_sim.storage.my_database import MyDatabase
+from easy_ecs_sim.system import System
+from easy_ecs_sim.systems import Systems
 from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.utils import ComponentSet
 
 
 class ECS:
-    def __init__(self, systems: list[System] = None):
+    def __init__(self, ctx: Context = None, systems: list[System] = None):
+        self.ctx: Context = ctx or Context()
         self.db = MyDatabase()
-        self.systems = systems or []
+        self.systems = Systems(systems)
         self.last_updates = {}
-
-    def find[T: System](self, stype: Type[T]):
-        for sys in self.systems:
-            if isinstance(sys, stype):
-                return sys
 
     def create_all(self, items: list[ComponentSet]):
         self.db.create_all(items)
-
-    def destroy_all(self, items: Component | Signature | list[Component | Signature]):
-        self.db.destroy_all(items)
 
     @time_func
     def update(self):
         self.apply_demography()
 
         now = time.time()
-        systems = []
-        for _ in self.systems:
-            if isinstance(_, SystemBag):
-                systems.extend(_.steps)
-            else:
-                systems.append(_)
+        systems = self.systems.flatten()
 
         for sys in systems:
             sys_key = sys.__class__
@@ -54,7 +42,7 @@ class ECS:
 
             try:
                 with timing(f'ECS.update.{sys.sys_id}'):
-                    sys.update(self.db, elapsed)
+                    sys.update(self.ctx, self.db, elapsed)
             except Exception as e:
                 logger.error(f'{sys.sys_id}: {e}\n{traceback.format_exc()}')
 
@@ -63,7 +51,7 @@ class ECS:
         status = Demography().load(self.db.dirty)
         self.db.dirty.clear()
 
-        systems = [_ for _ in self.systems if _._signature is not None]
+        systems = [_ for _ in self.systems.systems if _._signature is not None]
         for sys in systems:
             for _ in status.death:
                 self._handle_death(sys, _)
@@ -78,17 +66,18 @@ class ECS:
             items = [items]
         for item in items:
             item.db = self.db
+            item.ctx = self.ctx
         signature = sys._signature
         item = signature.cast(items)
         if item is not None:
             self.db.get_table(signature).create(item)
-            sys.register(item)
+            sys.register(self.ctx, item)
 
     def _handle_death(self, sys: System, eid: EntityId):
         index = self.db.get_table(sys._signature)
         item = index.read(eid)
         if item:
-            sys.unregister(item)
+            sys.unregister(self.ctx, item)
         index.destroy(eid)
 
 
