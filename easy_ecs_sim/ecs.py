@@ -20,6 +20,15 @@ class ECS:
         self.db = MyDatabase()
         self.systems = Systems(systems)
         self.last_updates = {}
+        self.ctx.register(self)
+        self.is_running: bool = True
+
+    def set_running(self, status: bool = None):
+        if status is None:
+            status = not self.is_running
+        self.is_running = status
+        if self.is_running:
+            self.last_updates = {}
 
     def create_all(self, items: list[ComponentSet]):
         self.db.create_all(items)
@@ -28,8 +37,13 @@ class ECS:
     def update(self):
         self.apply_demography()
 
+        if not self.is_running:
+            return
+
         now = time.time()
         systems = self.systems.flatten()
+        for sys in self.systems.paused:
+            self.last_updates[sys.__class__] = now
 
         for sys in systems:
             sys_key = sys.__class__

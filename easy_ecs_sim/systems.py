@@ -6,6 +6,7 @@ from easy_ecs_sim.system import System, SystemBag
 class Systems:
     def __init__(self, systems: list[System] = None):
         self.systems = systems or []
+        self.paused = set()
 
     def flatten(self):
         systems = []
@@ -14,7 +15,7 @@ class Systems:
                 systems.extend(_.steps)
             else:
                 systems.append(_)
-        return systems
+        return [_ for _ in systems if _ not in self.paused]
 
     def find[T: System](self, stype: Type[T]):
         for sys in self.flatten():
