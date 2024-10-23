@@ -17,7 +17,7 @@ class Systems:
                 systems.append(_)
         return [_ for _ in systems if _ not in self.paused]
 
-    def find[T: System](self, stype: Type[T]):
+    def find[T: System](self, stype: Type[T]) -> T:
         for sys in self.flatten():
             if isinstance(sys, stype):
                 return sys

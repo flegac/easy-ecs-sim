@@ -52,7 +52,6 @@ class MyDatabase(Database):
         self.dirty.with_death(items)
 
     @override
-    @time_func
     @cache
     def get_table[T:Component | Signature](self, ttype: Type[T]) -> Index[T]:
         if ttype not in self.tables:

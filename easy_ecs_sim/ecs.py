@@ -6,6 +6,7 @@ from easy_kit.timing import time_func, timing
 from loguru import logger
 
 from easy_ecs_sim.component import Component
+from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.my_database import MyDatabase
 from easy_ecs_sim.system import System
@@ -21,6 +22,7 @@ class ECS:
         self.systems = Systems(systems)
         self.last_updates = {}
         self.ctx.register(self)
+        self.ctx.register(self.db, Database)
         self.is_running: bool = True
 
     def set_running(self, status: bool = None):
