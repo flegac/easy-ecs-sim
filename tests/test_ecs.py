@@ -56,8 +56,7 @@ class TestEcs(TimingTestCase):
 
     def test_ecs(self):
         # init systems
-        ecs = ECS(systems=[
-        ])
+        ecs = ECS(systems=[])
 
         # create some entities
         ecs.create_all([

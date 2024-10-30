@@ -16,14 +16,25 @@ from easy_ecs_sim.utils import ComponentSet
 
 
 class ECS:
-    def __init__(self, ctx: Context = None, systems: list[System] = None):
+    def __init__(self, ctx: Context = None):
         self.ctx: Context = ctx or Context()
         self.db = MyDatabase()
-        self.systems = Systems(systems)
+        self.systems = Systems()
         self.last_updates = {}
+        self.is_running: bool = True
+
+    def add_systems(self, *systems: System):
+        for sys in systems:
+            self.systems.append(sys)
+        return self.connect(self.ctx)
+
+    def connect(self, ctx: Context):
+        self.ctx = ctx
         self.ctx.register(self)
         self.ctx.register(self.db, Database)
-        self.is_running: bool = True
+        for _ in self.systems.flatten():
+            self.ctx.register(_)
+        return self
 
     def set_running(self, status: bool = None):
         if status is None:
@@ -31,9 +42,11 @@ class ECS:
         self.is_running = status
         if self.is_running:
             self.last_updates = {}
+        return self
 
     def create_all(self, items: list[ComponentSet]):
         self.db.create_all(items)
+        return self
 
     @time_func
     def update(self):
@@ -43,11 +56,10 @@ class ECS:
             return
 
         now = time.time()
-        systems = self.systems.flatten()
         for sys in self.systems.paused:
             self.last_updates[sys.__class__] = now
 
-        for sys in systems:
+        for sys in self.systems.actives():
             sys_key = sys.__class__
             if sys_key not in self.last_updates:
                 self.last_updates[sys_key] = now
@@ -67,7 +79,7 @@ class ECS:
         status = Demography().load(self.db.dirty)
         self.db.dirty.clear()
 
-        systems = [_ for _ in self.systems.systems if _._signature is not None]
+        systems = [_ for _ in self.systems.flatten() if _._signature is not None]
         for sys in systems:
             for _ in status.death:
                 self._handle_death(sys, _)

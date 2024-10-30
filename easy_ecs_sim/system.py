@@ -68,4 +68,4 @@ class SystemBag(System):
 
     def update(self, ctx: Context, db: Database, dt: float):
         for _ in self.steps:
-            _.update_all(db, dt)
+            _.update(ctx, db, dt)

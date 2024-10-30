@@ -1,5 +1,3 @@
-from typing import Type
-
 from easy_ecs_sim.system import System, SystemBag
 
 
@@ -15,12 +13,10 @@ class Systems:
                 systems.extend(_.steps)
             else:
                 systems.append(_)
-        return [_ for _ in systems if _ not in self.paused]
+        return systems
 
-    def find[T: System](self, stype: Type[T]) -> T:
-        for sys in self.flatten():
-            if isinstance(sys, stype):
-                return sys
+    def actives(self):
+        return [_ for _ in self.flatten() if _ not in self.paused]
 
     def insert(self, index: int, item: System):
         self.systems.insert(index, item)
