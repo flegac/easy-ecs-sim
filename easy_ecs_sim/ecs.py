@@ -1,9 +1,7 @@
 import time
 import traceback
-
 from easy_kit.context import Context
 from easy_kit.timing import time_func, timing
-from loguru import logger
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.storage.database import Database
@@ -72,7 +70,7 @@ class ECS:
                 with timing(f'ECS.update.{sys.sys_id}'):
                     sys.update(self.ctx, self.db, elapsed)
             except Exception as e:
-                logger.error(f'{sys.sys_id}: {e}\n{traceback.format_exc()}')
+                print(f'{sys.sys_id}: {e}\n{traceback.format_exc()}')
 
     @time_func
     def apply_demography(self):

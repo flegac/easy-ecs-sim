@@ -1,5 +1,5 @@
 from dataclasses import field, dataclass
-from typing import Type, Iterable
+from typing import Type, Iterable, Any, Generator
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
@@ -15,7 +15,7 @@ class Index[T: Signature | Component]:
     def entities(self):
         return set(self.by_entity.keys())
 
-    def iter(self, eids: Iterable[EntityId] = None):
+    def iter(self, eids: Iterable[EntityId] = None) -> Generator[T | None, Any, None]:
         if eids is None:
             yield from self.by_entity.values()
         else:
@@ -41,3 +41,6 @@ class Index[T: Signature | Component]:
     def destroy_all(self, eids: Iterable[EntityId]):
         for _ in eids:
             self.destroy(_)
+
+    def clear(self):
+        self.by_entity.clear()

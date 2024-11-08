@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-ecs-sim"
-version = "0.1.6"
+version = "0.1.10"
 description = "Entity Component System"
 authors = ["flegac <florent.legac@gmail.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ classifiers = [
 repository = "https://github.com/flegac/easy-ecs"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.12"
 easy-kit = "*"
 pydantic = "*"
 
