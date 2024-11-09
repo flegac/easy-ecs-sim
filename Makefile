@@ -11,3 +11,9 @@ deploy-test:
 
 deploy-pypi:
     poetry publish
+
+full-deploy:
+    poetry version prerelease
+    poetry version patch
+	poetry build
+    poetry publish

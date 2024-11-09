@@ -1,6 +1,6 @@
 from typing import override
 
-from easy_kit.context import Context
+from easy_ecs_sim.context import Context
 from easy_kit.timing import TimingTestCase
 from pydantic import Field
 

@@ -2,7 +2,7 @@ from abc import abstractmethod
 from dataclasses import field
 from typing import Type, override
 
-from easy_kit.context import Context
+from easy_ecs_sim.context import Context
 from easy_kit.my_model import MyModel
 from pydantic import model_validator
 

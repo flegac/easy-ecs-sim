@@ -1,9 +1,9 @@
 import time
 import traceback
-from easy_kit.context import Context
 from easy_kit.timing import time_func, timing
 
 from easy_ecs_sim.component import Component
+from easy_ecs_sim.context import Context
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.my_database import MyDatabase
