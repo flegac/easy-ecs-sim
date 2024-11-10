@@ -1,7 +1,6 @@
 from dataclasses import field
 from typing import Self, Type, Any
 
-
 from easy_kit.my_model import MyModel
 from easy_kit.timing import time_func
 

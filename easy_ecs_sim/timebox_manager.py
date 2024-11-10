@@ -1,7 +1,6 @@
+import time
 from dataclasses import dataclass, field
 from typing import Type
-
-import time
 
 from easy_ecs_sim.storage.database import Database
 

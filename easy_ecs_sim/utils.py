@@ -1,7 +1,6 @@
+import builtins
 import dataclasses
 from typing import Type
-
-import builtins
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature

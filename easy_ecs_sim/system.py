@@ -2,11 +2,11 @@ from abc import abstractmethod
 from dataclasses import field
 from typing import Type, override
 
-from easy_ecs_sim.context import Context
 from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
 from easy_ecs_sim.component import Component
+from easy_ecs_sim.context import Context
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.timebox_manager import TimeboxManager
