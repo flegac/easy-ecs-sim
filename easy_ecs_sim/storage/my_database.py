@@ -1,5 +1,5 @@
 from functools import cache
-from typing import Type, override
+from typing import Type, override, TypeVar
 
 from easy_kit.timing import time_func
 
@@ -13,6 +13,8 @@ from easy_ecs_sim.types import EntityId
 from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 EID_GEN = IdGenerator()
+
+T = TypeVar('T')
 
 
 class MyDatabase(Database):

@@ -1,15 +1,15 @@
 from abc import abstractmethod
 from dataclasses import field
-from typing import Type, override
+from typing import Type, override, TypeVar, Generic
 
 from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
-from easy_ecs_sim.component import Component
 from easy_ecs_sim.context import Context
-from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.timebox_manager import TimeboxManager
+
+T = TypeVar('T')
 
 
 class BaseSystem(MyModel):
@@ -24,7 +24,7 @@ class BaseSystem(MyModel):
         ...
 
 
-class System[T: Signature | Component](BaseSystem):
+class System(BaseSystem, Generic[T]):
     _signature: Type[T] = None
     max_time_per_step: float | None = None
     timebox: TimeboxManager[T] | None = None

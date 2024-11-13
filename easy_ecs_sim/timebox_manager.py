@@ -1,12 +1,14 @@
 import time
 from dataclasses import dataclass, field
-from typing import Type
+from typing import Type, TypeVar, Generic
 
 from easy_ecs_sim.storage.database import Database
 
+T = TypeVar('T')
+
 
 @dataclass
-class TimeboxManager[T]:
+class TimeboxManager(Generic[T]):
     signature: Type[T]
     max_time_per_step: float
     items: list[T] = field(default_factory=list)

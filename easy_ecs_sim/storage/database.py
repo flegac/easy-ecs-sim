@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
-from typing import Type
+from typing import Type, TypeVar
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.index import Index
 from easy_ecs_sim.types import EntityId
 from easy_ecs_sim.utils import ComponentSet
+
+T = TypeVar('T')
 
 
 class Database(ABC):

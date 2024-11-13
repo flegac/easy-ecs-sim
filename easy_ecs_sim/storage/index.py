@@ -1,13 +1,13 @@
 from dataclasses import field, dataclass
-from typing import Type, Iterable, Any, Generator
+from typing import Type, Iterable, Any, Generator, TypeVar, Generic
 
-from easy_ecs_sim.component import Component
-from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.types import EntityId
+
+T = TypeVar('T')
 
 
 @dataclass
-class Index[T: Signature | Component]:
+class Index(Generic[T]):
     ttype: Type[T]
     by_entity: dict[EntityId, T] = field(default_factory=dict)
 

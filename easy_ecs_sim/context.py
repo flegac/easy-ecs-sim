@@ -1,4 +1,6 @@
-from typing import Type, Any
+from typing import Type, Any, TypeVar
+
+T = TypeVar('T')
 
 
 class Context:

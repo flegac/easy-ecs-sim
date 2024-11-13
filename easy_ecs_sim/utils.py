@@ -1,11 +1,13 @@
 import builtins
 import dataclasses
-from typing import Type
+from typing import Type, TypeVar
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
 
 ComponentSet = Component | list[Component] | Signature | None
+
+T = TypeVar('T')
 
 
 def flatten_components(item: ComponentSet):

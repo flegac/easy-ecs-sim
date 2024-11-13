@@ -1,6 +1,8 @@
-from typing import Type
+from typing import Type, TypeVar
 
 from easy_ecs_sim.context import Context
+
+T = TypeVar('T')
 
 
 class ContextService:
