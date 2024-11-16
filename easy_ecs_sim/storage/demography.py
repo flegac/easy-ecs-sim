@@ -1,12 +1,10 @@
 from dataclasses import field, dataclass
 from typing import Self
 
-from easy_kit.timing import time_func
-
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.utils import ComponentSet, flatten_components
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 
 @dataclass
@@ -28,7 +26,6 @@ class Demography:
         self.death.update([_.eid for _ in items])
         return self
 
-    @time_func
     def load(self, other: Self):
         if other is None:
             return self

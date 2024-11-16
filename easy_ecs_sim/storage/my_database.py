@@ -1,8 +1,6 @@
 from functools import cache
 from typing import Type, override, TypeVar
 
-from easy_kit.timing import time_func
-
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.database import Database
@@ -24,7 +22,6 @@ class MyDatabase(Database):
         self.dirty: Demography = Demography()
 
     @override
-    @time_func
     def find_any[T: Component](self, what: Type[T], having: list[Type[Component]] = None) -> T:
         table = self.get_table(what)
         eids = table.entities
@@ -60,31 +57,8 @@ class MyDatabase(Database):
             self.tables[ttype] = Index(ttype=ttype)
         return self.tables[ttype]
 
-    @time_func
-    def union_entities(self, signature: list[Type[Component]]):
-        res = set()
-        for _ in signature:
-            res.update(self.tables[_].by_entity.keys())
-        return res
-
-    @time_func
-    def intersect_entities(self, signature: list[Type[Component]]):
-        if not signature:
-            return set()
-        first = signature[0]
-        if first not in self.tables:
-            return set()
-
-        res = self.tables[first].entities
-        for _ in signature[1:]:
-            res.intersection_update(self.tables[_].entities)
-            if not res:
-                return res
-        return res
-
     # -----------------------------------------------------------------------------
 
-    @time_func
     def update_demography(self, status: Demography):
         death = status.death
 
