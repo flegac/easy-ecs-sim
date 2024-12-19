@@ -1,6 +1,6 @@
-import time
 import traceback
-from easy_kit.timing import time_func, timing
+
+import time
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.context import Context
@@ -46,7 +46,6 @@ class ECS:
         self.db.create_all(items)
         return self
 
-    @time_func
     def update(self):
         self.apply_demography()
 
@@ -67,12 +66,10 @@ class ECS:
             self.last_updates[sys_key] = now
 
             try:
-                with timing(f'ECS.update.{sys.sys_id}'):
-                    sys.update(self.ctx, self.db, elapsed)
+                sys.update(self.ctx, self.db, elapsed)
             except Exception as e:
                 print(f'{sys.sys_id}: {e}\n{traceback.format_exc()}')
 
-    @time_func
     def apply_demography(self):
         status = Demography().load(self.db.dirty)
         self.db.dirty.clear()

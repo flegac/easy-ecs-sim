@@ -1,10 +1,9 @@
 import functools
 from typing import Type
 
-from easy_kit.timing import time_func
+from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
-from easy_kit.my_model import MyModel
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.types import EntityId
 
@@ -30,7 +29,6 @@ class Signature(MyModel):
         ]))
 
     @classmethod
-    @time_func
     @functools.lru_cache()
     def signature(cls) -> list[Type[Component]]:
         return [cls.model_fields[_].annotation for _ in cls.field_names()]
@@ -41,7 +39,6 @@ class Signature(MyModel):
         return list(sorted(cls.model_fields.keys()))
 
     @classmethod
-    @time_func
     # @functools.lru_cache()
     def field_mapping(cls):
         return dict(zip(cls.signature(), cls.field_names()))
@@ -54,7 +51,6 @@ class Signature(MyModel):
         return len(mapping) == 0
 
     @classmethod
-    @time_func
     def cast(cls, items: list[Component]):
         mapping = cls.field_mapping()
         if len(items) < len(mapping):
