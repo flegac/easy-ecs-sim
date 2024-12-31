@@ -15,6 +15,9 @@ class Context:
         for _ in initial_state:
             self.register(_)
 
+    def __contains__(self, ctype: Type[T]):
+        return ctype in self.data
+
     def find[T](self, ctype: Type[T]) -> T:
         return self.data[ctype]
 

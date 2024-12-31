@@ -9,7 +9,10 @@ class ContextService:
 
     @classmethod
     def singleton(cls: Type[T]) -> T:
-        return cls(Context.default())
+        ctx = Context.default()
+        if cls in ctx:
+            return ctx.find(cls)
+        return cls(ctx)
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
