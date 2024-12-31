@@ -13,6 +13,7 @@ class ContextService:
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
+        ctx.register(self)
 
     def find[T](self, ctype: Type[T]):
         return self.ctx.find(ctype)

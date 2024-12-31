@@ -15,6 +15,9 @@ class Context:
         for _ in initial_state:
             self.register(_)
 
+    def find[T](self, ctype: Type[T]) -> T:
+        return self.data[ctype]
+
     def register[T](self, data: T, ctype: Type[T] = None):
         found_type = type(data)
 
@@ -29,5 +32,11 @@ class Context:
         self.data[ctype] = data
         return self
 
-    def find[T](self, ctype: Type[T]) -> T:
-        return self.data[ctype]
+    def register_all(self, items: list):
+        for _ in items:
+            self.register(_)
+        return self
+
+    def clear(self):
+        self.data.clear()
+        return self
