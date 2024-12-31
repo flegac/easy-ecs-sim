@@ -1,15 +1,14 @@
-from functools import cache
+from functools import lru_cache
 from typing import Type, Any, TypeVar
 
 T = TypeVar('T')
 
 
 class Context:
-
-    @staticmethod
-    @cache
-    def default():
-        return Context()
+    @classmethod
+    @lru_cache(maxsize=None)
+    def default(cls: Type[T]) -> T:
+        return cls()
 
     def __init__(self, *initial_state: Any):
         self.data: dict[Type, Any] = {}

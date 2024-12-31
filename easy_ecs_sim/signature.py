@@ -5,7 +5,7 @@ from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.my_types import EntityId
 
 
 class Signature(MyModel):

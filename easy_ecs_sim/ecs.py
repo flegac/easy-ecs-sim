@@ -9,7 +9,7 @@ from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.my_database import MyDatabase
 from easy_ecs_sim.system import System
 from easy_ecs_sim.systems import Systems
-from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet
 
 

@@ -5,7 +5,7 @@ from easy_kit.my_model import MyModel
 
 from easy_ecs_sim.context import Context
 from easy_ecs_sim.storage.id_generator import IdGenerator
-from easy_ecs_sim.types import ComponentId, EntityId
+from easy_ecs_sim.my_types import ComponentId, EntityId
 
 CID_GEN = IdGenerator()
 

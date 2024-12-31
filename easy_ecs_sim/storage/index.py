@@ -1,7 +1,7 @@
 from dataclasses import field, dataclass
 from typing import Type, Iterable, Any, Generator, TypeVar, Generic
 
-from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.my_types import EntityId
 
 T = TypeVar('T')
 

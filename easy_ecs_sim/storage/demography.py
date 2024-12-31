@@ -3,7 +3,7 @@ from typing import Self
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
-from easy_ecs_sim.types import EntityId
+from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 
