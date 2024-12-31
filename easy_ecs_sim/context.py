@@ -1,9 +1,16 @@
+from functools import cache
 from typing import Type, Any, TypeVar
 
 T = TypeVar('T')
 
 
 class Context:
+
+    @staticmethod
+    @cache
+    def default():
+        return Context()
+
     def __init__(self, *initial_state: Any):
         self.data: dict[Type, Any] = {}
         for _ in initial_state:

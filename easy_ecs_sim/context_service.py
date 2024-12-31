@@ -6,6 +6,11 @@ T = TypeVar('T')
 
 
 class ContextService:
+
+    @classmethod
+    def singleton(cls: Type[T]) -> T:
+        return cls(Context.default())
+
     def __init__(self, ctx: Context):
         self.ctx = ctx
 
