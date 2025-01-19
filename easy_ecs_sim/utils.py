@@ -15,7 +15,7 @@ def flatten_components(item: ComponentSet):
         return [item]
     if isinstance(item, Signature):
         return item.to_components()
-    return item
+    return list(filter(None,item))
 
 
 def column_mapping[T: dataclasses.dataclass](ctype: Type[T], prefix: str = ''):

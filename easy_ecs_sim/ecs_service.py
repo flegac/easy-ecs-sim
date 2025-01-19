@@ -1,21 +1,22 @@
-import traceback
-
 import time
+import traceback
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.context import Context
+from easy_ecs_sim.context_service import ContextService
+from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.my_database import MyDatabase
 from easy_ecs_sim.system import System
 from easy_ecs_sim.systems import Systems
-from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet
 
 
-class ECS:
-    def __init__(self, ctx: Context = None):
-        self.ctx: Context = ctx or Context()
+class EcsService(ContextService):
+
+    def __init__(self, ctx: Context):
+        super().__init__(ctx)
         self.db = MyDatabase()
         self.systems = Systems()
         self.last_updates = {}
@@ -102,7 +103,3 @@ class ECS:
         if item:
             sys.unregister(self.ctx, item)
         index.destroy(eid)
-
-
-# default simulator
-sim = ECS()

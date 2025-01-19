@@ -8,7 +8,7 @@ T = TypeVar('T')
 class ContextService:
 
     @classmethod
-    def singleton(cls: Type[T]) -> T:
+    def default(cls: Type[T]) -> T:
         ctx = Context.default()
         if cls in ctx:
             return ctx.find(cls)

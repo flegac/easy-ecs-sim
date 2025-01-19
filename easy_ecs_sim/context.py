@@ -5,10 +5,10 @@ T = TypeVar('T')
 
 
 class Context:
-    @classmethod
+    @staticmethod
     @lru_cache(maxsize=None)
-    def default(cls: Type[T]) -> T:
-        return cls()
+    def default():
+        return Context()
 
     def __init__(self, *initial_state: Any):
         self.data: dict[Type, Any] = {}

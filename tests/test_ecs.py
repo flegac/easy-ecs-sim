@@ -5,7 +5,7 @@ from easy_kit.timing import TimingTestCase
 from pydantic import Field
 
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.ecs import ECS
+from easy_ecs_sim.ecs_service import EcsService
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.id_generator import IdGenerator
@@ -56,7 +56,7 @@ class TestEcs(TimingTestCase):
 
     def test_ecs(self):
         # init systems
-        ecs = ECS(systems=[])
+        ecs = EcsService(systems=[])
 
         # create some entities
         ecs.create_all([
