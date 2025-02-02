@@ -1,23 +1,20 @@
-from dataclasses import field
+from dataclasses import dataclass
 from typing import Self, Type, Any, TypeVar
 
-from easy_kit.my_model import MyModel
-
 from easy_ecs_sim.context import Context
-from easy_ecs_sim.storage.id_generator import IdGenerator
-from easy_ecs_sim.my_types import ComponentId, EntityId
-
-CID_GEN = IdGenerator()
 
 T = TypeVar('T')
 
 
-class Component(MyModel):
-    cid: ComponentId = field(default_factory=CID_GEN.new_id)
-    eid: EntityId = -1
-
+@dataclass(kw_only=True)
+class Component:
+    eid: int = -1
     db: Any = None
     ctx: Context | None = None
+
+    @property
+    def cid(self):
+        return id(self)
 
     @classmethod
     def signature(cls) -> list[Type[Self]]:

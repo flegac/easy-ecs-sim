@@ -4,7 +4,6 @@ import traceback
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.context import Context
 from easy_ecs_sim.context_service import ContextService
-from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.my_database import MyDatabase
@@ -97,7 +96,7 @@ class EcsService(ContextService):
             self.db.get_table(signature).create(item)
             sys.register(self.ctx, item)
 
-    def _handle_death(self, sys: System, eid: EntityId):
+    def _handle_death(self, sys: System, eid: int):
         index = self.db.get_table(sys._signature)
         item = index.read(eid)
         if item:

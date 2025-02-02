@@ -4,7 +4,6 @@ from typing import Type, TypeVar
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
 from easy_ecs_sim.storage.index import Index
-from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet
 
 T = TypeVar('T')
@@ -13,7 +12,7 @@ T = TypeVar('T')
 class Database(ABC):
 
     @abstractmethod
-    def entities(self) -> set[EntityId]:
+    def entity_ids(self) -> set[int]:
         ...
 
     @abstractmethod

@@ -7,7 +7,6 @@ from easy_ecs_sim.storage.database import Database
 from easy_ecs_sim.storage.demography import Demography
 from easy_ecs_sim.storage.id_generator import IdGenerator
 from easy_ecs_sim.storage.index import Index
-from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 EID_GEN = IdGenerator()
@@ -17,7 +16,7 @@ T = TypeVar('T')
 
 class MyDatabase(Database):
     def __init__(self):
-        self._entities: set[EntityId] = set()
+        self._entities: set[int] = set()
         self.tables: dict[Type[Component | Signature], Index] = {}
         self.dirty: Demography = Demography()
 
@@ -33,7 +32,7 @@ class MyDatabase(Database):
             return table.read(eid)
 
     @override
-    def entities(self):
+    def entity_ids(self):
         return self._entities
 
     @override

@@ -5,7 +5,6 @@ from easy_kit.my_model import MyModel
 from pydantic import model_validator
 
 from easy_ecs_sim.component import Component
-from easy_ecs_sim.my_types import EntityId
 
 
 class Signature(MyModel):
@@ -17,10 +16,10 @@ class Signature(MyModel):
         return self
 
     @property
-    def eid(self):
+    def eid(self) -> int:
         name = self.field_names()[0]
         item = getattr(self, name)
-        return EntityId(item.eid)
+        return item.eid
 
     def to_components(self) -> list[Component]:
         return list(filter(None, [

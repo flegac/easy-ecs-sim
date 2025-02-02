@@ -3,14 +3,13 @@ from typing import Self
 
 from easy_ecs_sim.component import Component
 from easy_ecs_sim.signature import Signature
-from easy_ecs_sim.my_types import EntityId
 from easy_ecs_sim.utils import ComponentSet, flatten_components
 
 
 @dataclass
 class Demography:
     birth: list[list[Component]] = field(default_factory=list)
-    death: set[EntityId] = field(default_factory=set)
+    death: set[int] = field(default_factory=set)
 
     def clear(self):
         self.birth.clear()

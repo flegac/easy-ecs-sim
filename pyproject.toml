@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-ecs-sim"
-version = "0.1.25"
+version = "0.1.26"
 description = "Entity Component System"
 authors = ["flegac <florent.legac@gmail.com>"]
 license = "MIT"
